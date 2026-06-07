@@ -11,29 +11,24 @@
 
 <main class="scheduling-wrapper">
 
-    <!-- Back link -->
     <div class="mb-4">
         <a href="?p=dashboard" class="link-voltar">Voltar para o Painel</a>
     </div>
 
-    <!-- Brand badge -->
     <div class="brand-badge">
         <div class="brand-icon">✂</div>
         <span class="brand-name">EasyCut</span>
     </div>
 
-    <!-- Heading -->
     <div class="page-heading">
         <h1>Novo <span>Agendamento</span></h1>
         <div class="heading-divider"></div>
         <p>Escolha o serviço, a data e o profissional de sua preferência.</p>
     </div>
 
-    <!-- Main card -->
     <div class="card-main">
         <div class="card-inner">
 
-            <!-- ── Coluna do formulário ── -->
             <div class="card-form">
 
                 <?php if (isset($erro)): ?>
@@ -43,7 +38,6 @@
                 <form action="?p=salvar-agendamento" method="POST">
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
-                    <!-- Step 1 — Serviço -->
                     <div class="step-label">
                         <div class="step-num">1</div>
                         <span class="step-title">Escolha o serviço</span>
@@ -75,7 +69,6 @@
 
                     <hr class="section-sep">
 
-                    <!-- Step 2 — Data e Hora -->
                     <div class="step-label">
                         <div class="step-num">2</div>
                         <span class="step-title">Escolha data e horário</span>
@@ -105,7 +98,6 @@
 
                     <hr class="section-sep">
 
-                    <!-- Step 3 — Barbeiro -->
                     <div class="step-label">
                         <div class="step-num">3</div>
                         <span class="step-title">Escolha o profissional</span>
@@ -114,24 +106,27 @@
                     <div class="field-group">
                         <label class="field-label">Barbeiro</label>
                         <div class="barbers-row">
-                            <label class="barber-label">
-                                <input type="radio"
-                                       name="barbeiro"
-                                       value="Carlos"
-                                       required
-                                       <?= ((isset($_POST['barbeiro']) && $_POST['barbeiro'] === 'Carlos') ? 'checked' : '') ?>>
-                                <div class="barber-avatar">C</div>
-                                <span class="barber-name">Carlos</span>
-                            </label>
-
-                            <label class="barber-label">
-                                <input type="radio"
-                                       name="barbeiro"
-                                       value="Rodolfo"
-                                       <?= ((isset($_POST['barbeiro']) && $_POST['barbeiro'] === 'Rodolfo') ? 'checked' : '') ?>>
-                                <div class="barber-avatar">R</div>
-                                <span class="barber-name">Rodolfo</span>
-                            </label>
+                            <?php if (isset($barbeiros) && !empty($barbeiros)): ?>
+                                <?php foreach ($barbeiros as $b): ?>
+                                    <?php
+                                        $checked = '';
+                                        if (isset($_POST['barbeiro_id']) && $_POST['barbeiro_id'] == $b['id']) {
+                                            $checked = 'checked';
+                                        }
+                                    ?>
+                                    <label class="barber-label">
+                                        <input type="radio"
+                                               name="barbeiro_id"
+                                               value="<?= $b['id'] ?>"
+                                               required
+                                               <?= $checked ?>>
+                                        <div class="barber-avatar"><?= substr(htmlspecialchars($b['nome']), 0, 1) ?></div>
+                                        <span class="barber-name"><?= htmlspecialchars($b['nome']) ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p class="text-muted small">Nenhum profissional disponível no momento.</p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -139,7 +134,6 @@
                 </form>
             </div>
 
-            <!-- ── Aside decorativo ── -->
             <div class="card-aside">
                 <div class="aside-content">
                     <span class="aside-icon">✦</span>

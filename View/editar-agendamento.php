@@ -11,27 +11,23 @@
 
 <main class="scheduling-wrapper">
 
-    <!-- Back link -->
     <div class="mb-4">
         <a href="?p=dashboard" class="link-voltar">Voltar para o Painel</a>
     </div>
 
-    <!-- Brand badge -->
     <div class="brand-badge">
         <div class="brand-icon">✂</div>
         <span class="brand-name">EasyCut</span>
     </div>
 
-    <!-- Heading -->
     <div class="page-heading">
         <h1>Editar <span>Agendamento</span></h1>
         <div class="heading-divider"></div>
         <p>Altere o serviço, a data ou o horário do seu agendamento.</p>
     </div>
 
-    <?php if (!isset($agendamento) || !isset($servicos)): ?>
+    <?php if (!isset($agendamento) || !isset($servicos) || !isset($barbeiros)): ?>
 
-        <!-- Erro -->
         <div class="card-main" style="padding: 40px; text-align: center;">
             <span style="font-size:2rem; display:block; margin-bottom:16px; opacity:0.3;">⚠</span>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">
@@ -45,13 +41,12 @@
         <div class="card-main">
             <div class="card-inner">
 
-                <!-- ── Coluna do formulário ── -->
                 <div class="card-form">
                     <form action="?p=atualizar-agendamento" method="POST">
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
                         <input type="hidden" name="id" value="<?= $agendamento['id'] ?>">
 
-                        <!-- Step 1 — Serviço -->
+                        <!-- PASSO 1: SERVIÇO -->
                         <div class="step-label">
                             <div class="step-num">1</div>
                             <span class="step-title">Serviço</span>
@@ -72,7 +67,7 @@
 
                         <hr class="section-sep">
 
-                        <!-- Step 2 — Data e Hora -->
+                        <!-- PASSO 2: DATA E HORÁRIO -->
                         <div class="step-label">
                             <div class="step-num">2</div>
                             <span class="step-title">Nova data e horário</span>
@@ -100,11 +95,39 @@
                             </div>
                         </div>
 
+                        <hr class="section-sep">
+
+                        <!-- PASSO 3: BARBEIRO -->
+                        <div class="step-label">
+                            <div class="step-num">3</div>
+                            <span class="step-title">Profissional</span>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Barbeiro</label>
+                            <div class="barbers-row">
+                                <?php if (!empty($barbeiros)): ?>
+                                    <?php foreach ($barbeiros as $b): ?>
+                                        <label class="barber-label">
+                                            <input type="radio"
+                                                   name="barbeiro_id"
+                                                   value="<?= $b['id'] ?>"
+                                                   required
+                                                   <?= $b['id'] == $agendamento['barbeiro_id'] ? 'checked' : '' ?>>
+                                            <div class="barber-avatar"><?= substr(htmlspecialchars($b['nome']), 0, 1) ?></div>
+                                            <span class="barber-name"><?= htmlspecialchars($b['nome']) ?></span>
+                                        </label>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p class="text-muted small">Nenhum profissional disponível no momento.</p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn-finalizar">Salvar Alterações</button>
                     </form>
                 </div>
 
-                <!-- ── Aside decorativo ── -->
                 <div class="card-aside">
                     <div class="aside-content">
                         <span class="aside-icon">✦</span>

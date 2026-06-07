@@ -3,7 +3,7 @@
 session_start(); 
 
 if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = "token_seguro_easycut_123"; 
+    $_SESSION['csrf_token'] = "token_seguro_easycut_123";
 }
 
 require_once __DIR__ . "/Config/banco1.php";
