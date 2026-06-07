@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../Model/Agendamento.php";
+require_once __DIR__ . "/../Model/Barbeiro.php";
 
 class AgendamentosController {
 
@@ -24,6 +25,7 @@ class AgendamentosController {
         self::verificarAutenticacao();
 
         $servicos = Agendamento::listarServicos();
+        $barbeiros = Barbeiro::listarBarbeiros();
 
         require __DIR__ . "/../View/agendar.php";
     }
