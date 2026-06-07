@@ -118,10 +118,10 @@
                                 <?php foreach ($barbeiros as $index => $b): ?>
                                     <label class="barber-label">
                                         <input type="radio"
-                                               name="barbeiro"
-                                               value="<?= htmlspecialchars($b['nome']) ?>"
+                                               name="barbeiro_id"
+                                               value="<?= $b['id'] ?>"
                                                <?= ($index === 0 ? 'required' : '') ?>
-                                               <?= ((isset($_POST['barbeiro']) && $_POST['barbeiro'] === $b['nome']) ? 'checked' : '') ?>>
+                                               <?= ((isset($_POST['barbeiro_id']) && $_POST['barbeiro_id'] == $b['id']) ? 'checked' : '') ?>>
                                         <div class="barber-avatar"><?= htmlspecialchars(mb_substr($b['nome'], 0, 1)) ?></div>
                                         <span class="barber-name"><?= htmlspecialchars($b['nome']) ?></span>
                                     </label>

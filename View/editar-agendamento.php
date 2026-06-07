@@ -45,13 +45,13 @@
         <div class="card-main">
             <div class="card-inner">
 
-                <!-- ── Coluna do formulário ── -->
+              
                 <div class="card-form">
                     <form action="?p=atualizar-agendamento" method="POST">
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
                         <input type="hidden" name="id" value="<?= $agendamento['id'] ?>">
 
-                        <!-- Step 1 — Serviço -->
+                       
                         <div class="step-label">
                             <div class="step-num">1</div>
                             <span class="step-title">Serviço</span>
@@ -72,7 +72,7 @@
 
                         <hr class="section-sep">
 
-                        <!-- Step 2 — Data e Hora -->
+                       
                         <div class="step-label">
                             <div class="step-num">2</div>
                             <span class="step-title">Nova data e horário</span>
@@ -100,11 +100,36 @@
                             </div>
                         </div>
 
+                        <hr class="section-sep">
+
+                        
+                        <div class="step-label">
+                            <div class="step-num">3</div>
+                            <span class="step-title">Escolha o profissional</span>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Barbeiro</label>
+                            <div class="barbers-row">
+                                <?php foreach ($barbeiros as $index => $b): ?>
+                                    <label class="barber-label">
+                                        <input type="radio"
+                                               name="barbeiro_id"
+                                               value="<?= $b['id'] ?>"
+                                               <?= ($index === 0 ? 'required' : '') ?>
+                                               <?= ($b['id'] == $agendamento['barbeiro_id'] ? 'checked' : '') ?>>
+                                        <div class="barber-avatar"><?= htmlspecialchars(mb_substr($b['nome'], 0, 1)) ?></div>
+                                        <span class="barber-name"><?= htmlspecialchars($b['nome']) ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn-finalizar">Salvar Alterações</button>
                     </form>
                 </div>
 
-                <!-- ── Aside decorativo ── -->
+                
                 <div class="card-aside">
                     <div class="aside-content">
                         <span class="aside-icon">✦</span>

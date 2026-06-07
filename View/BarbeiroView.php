@@ -19,14 +19,12 @@
     <div class="dashboard-welcome">
         <h2>Nossos <span>Profissionais</span></h2>
         <div class="dashboard-divider"></div>
-        <p>Conheça a equipe de barbeiros disponíveis.</p>
+        <p>Gerencie os barbeiros cadastrados no sistema.</p>
     </div>
 
     <div class="section-header">
         <p class="section-title">Barbeiros Cadastrados</p>
-        <?php if (isset($_SESSION['usuario'])): ?>
-            <a href="?p=cadastrar-barbeiro" class="btn-novo-agendamento-painel">Novo Barbeiro</a>
-        <?php endif; ?>
+        <a href="?p=cadastrar-barbeiro" class="btn-novo-agendamento-painel">Novo Barbeiro</a>
     </div>
 
     <div class="tabela-card">
@@ -35,12 +33,13 @@
                 <tr>
                     <th>Nome</th>
                     <th>Especialidade</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($barbeiros)): ?>
                     <tr class="tabela-empty">
-                        <td colspan="2">
+                        <td colspan="3">
                             <span class="tabela-empty-icon">✂</span>
                             Nenhum barbeiro cadastrado ainda.
                         </td>
@@ -50,6 +49,17 @@
                         <tr>
                             <td><?= htmlspecialchars($b['nome']) ?></td>
                             <td><?= htmlspecialchars($b['especialidade']) ?></td>
+                            <td>
+                                <div class="acoes-cell">
+                                    <a href="?p=editar-barbeiro&id=<?= $b['id'] ?>" class="btn-tabela-editar">Editar</a>
+
+                                    <form action="?p=excluir-barbeiro" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este barbeiro?');">
+                                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+                                        <input type="hidden" name="id" value="<?= $b['id'] ?>">
+                                        <button type="submit" class="btn-tabela-excluir">Excluir</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
