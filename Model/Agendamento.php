@@ -54,6 +54,7 @@ class Agendamento {
         return $conn->query($sql);
     }
 
+    
     public static function atualizar($id, $id_servico, $data, $hora, $barbeiro_id) {
         $conn = Banco::getConn();
         $sql = "UPDATE agendamentos 

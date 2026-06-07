@@ -97,7 +97,6 @@
 
                         <hr class="section-sep">
 
-                        <!-- PASSO 3: BARBEIRO -->
                         <div class="step-label">
                             <div class="step-num">3</div>
                             <span class="step-title">Profissional</span>
@@ -128,7 +127,7 @@
                     </form>
                 </div>
 
-                <div class="card-aside">
+                <div class="card-aside"> 
                     <div class="aside-content">
                         <span class="aside-icon">✦</span>
                         <p class="aside-headline">Mudou de <em>ideia?</em></p>
@@ -144,6 +143,7 @@
             </div>
         </div>
 
+        
     <?php endif; ?>
 
 </main>

@@ -12,6 +12,7 @@ class AgendamentosController {
         }
     }
 
+    
     public static function index(): void {
         self::verificarAutenticacao();
         $id = $_SESSION['usuario']['id'];
