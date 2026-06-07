@@ -1,51 +1,56 @@
 <?php
+// Controller/ServicoController.php
+require_once __DIR__ . "/../Model/Servicos.php";
 
 class ServicoController {
-    private $servicoModel;
 
-    public function __construct($db) {
-        $this->servicoModel = new Servico($db);
+    private static function verificarAdmin() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        // Trava estrita de segurança baseada no e-mail
+        if (!isset($_SESSION['usuario']['email']) || $_SESSION['usuario']['email'] !== 'admin@easycut.com') {
+            die("Acesso Negado: Esta área é restrita para o usuário admin@easycut.com.");
+        }
     }
 
-    public function index() {
-        $servicos = $this->servicoModel->listarTodos();
-        require_once "views/servicos-publico.php";
+    public static function listarServicos() {
+        self::verificarAdmin();
+        $servicos = Servicos::listarTodos();
+        require_once __DIR__ . "/../View/servicos-gerenciar.php";
     }
 
-public function gerenciar() {
-    $servicos = $this->servicoModel->listarTodos();
-   require_once "View/servicos-gerenciar.php"; 
-}
+    public static function formularioCadastrar() {
+        self::verificarAdmin();
+        require_once __DIR__ . "/../View/servico-form.php";
+    }
 
-    public function salvar() {
+    public static function cadastrarServico() {
+        self::verificarAdmin();
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = isset($_POST['id']) && !empty($_POST['id']) ? intval($_POST['id']) : null;
             $nome = trim($_POST['nome']);
             $descricao = trim($_POST['descricao']);
             $duracao_minutos = intval($_POST['duracao_minutos']);
+            $preco = str_replace(',', '.', trim($_POST['preco']));
 
-            $preco = str_replace(',', '.', trim($_POST['preco'])); 
-
-         
-            if (empty($nome) || empty($duracao_minutos) || empty($preco)) {
-                die("Por favor, preencha todos os campos obrigatórios (Nome, Duração e Preço).");
+            if (!empty($nome) && $duracao_minutos > 0 && !empty($preco)) {
+                Servicos::criar($nome, $descricao, $duracao_minutos, $preco);
             }
-
-            if ($id) {
-                $this->servicoModel->atualizar($id, $nome, $descricao, $duracao_minutos, $preco);
-            } else {
-                $this->servicoModel->criar($nome, $descricao, $duracao_minutos, $preco);
-            }
-
-            header("Location: /easycut/servicos/gerenciar");
-            exit;
         }
+        header("Location: index.php?p=servicos");
+        exit;
     }
-    public function excluir($id) {
+
+    public static function apagarServico() {
+        self::verificarAdmin();
+        
+        $id = isset($_GET['id']) ? intval($_GET['id']) : null;
         if ($id) {
-            $this->servicoModel->deletar($id);
+            Servicos::deletar($id);
         }
-        header("Location: /easycut/servicos/gerenciar");
+        header("Location: index.php?p=servicos");
         exit;
     }
 }
+?>

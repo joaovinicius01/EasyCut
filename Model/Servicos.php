@@ -1,61 +1,30 @@
 <?php
-// models/Servico.php
+// Model/Servicos.php
+require_once __DIR__ . "/../Config/banco1.php";
 
-class Servico {
-    private $conn;
-    private $table = "servicos";
+class Servicos {
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public static function listarTodos() {
+        $db = Banco::getConn();
+        $result = $db->query("SELECT * FROM servicos ORDER BY nome ASC");
+        if ($result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+        return [];
     }
 
-    public function listarTodos() {
-        $query = "SELECT * FROM " . $this->table . " ORDER BY nome ASC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function buscarPorId($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id LIMIT 1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function criar($nome, $descricao, $duracao_minutos, $preco) {
-        $query = "INSERT INTO " . $this->table . " (nome, descricao, duracao_minutos, preco) 
-                  VALUES (:nome, :descricao, :duracao_minutos, :preco)";
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":descricao", $descricao);
-        $stmt->bindParam(":duracao_minutos", $duracao_minutos, PDO::PARAM_INT);
-        $stmt->bindParam(":preco", $preco);
-        
+    public static function criar($nome, $descricao, $duracao_minutos, $preco) {
+        $db = Banco::getConn();
+        $stmt = $db->prepare("INSERT INTO servicos (nome, descricao, duracao_minutos, preco) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssid", $nome, $descricao, $duracao_minutos, $preco);
         return $stmt->execute();
     }
 
-    public function atualizar($id, $nome, $descricao, $duracao_minutos, $preco) {
-        $query = "UPDATE " . $this->table . " 
-                  SET nome = :nome, descricao = :descricao, duracao_minutos = :duracao_minutos, preco = :preco 
-                  WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->bindParam(":nome", $nome);
-        $stmt->bindParam(":descricao", $descricao);
-        $stmt->bindParam(":duracao_minutos", $duracao_minutos, PDO::PARAM_INT);
-        $stmt->bindParam(":preco", $preco);
-        
-        return $stmt->execute();
-    }
-
-    public function deletar($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    public static function deletar($id) {
+        $db = Banco::getConn();
+        $stmt = $db->prepare("DELETE FROM servicos WHERE id = ?");
+        $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
 }
+?>
