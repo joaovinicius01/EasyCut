@@ -1,5 +1,4 @@
 <?php
-// Controller/ServicoController.php
 require_once __DIR__ . "/../Model/Servicos.php";
 
 class ServicoController {
@@ -8,7 +7,6 @@ class ServicoController {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        // Trava estrita de segurança baseada no e-mail
         if (!isset($_SESSION['usuario']['email']) || $_SESSION['usuario']['email'] !== 'admin@easycut.com') {
             die("Acesso Negado: Esta área é restrita para o usuário admin@easycut.com.");
         }
