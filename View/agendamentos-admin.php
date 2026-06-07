@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Agendamentos — EasyCut</title>
+    <title>Agendamentos — EasyCut</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="public/main.css">
 </head>
@@ -14,39 +14,34 @@
     <div class="section-header" style="margin-bottom: 32px;">
         <p class="section-title">Menu</p>
         <div class="acoes-cell">
-            <?php if (($_SESSION['usuario']['tipo'] ?? '') == 'admin'): ?>
-                <a href="index.php?p=agendamentos-admin" class="btn-tabela-editar">Todos Agendamentos</a>
-                <a href="index.php?p=barbeiros" class="btn-tabela-editar">Barbeiros</a>
-            <?php endif; ?>
-            <a href="index.php?p=novo-agendamento" class="btn-tabela-editar">Novo Agendamento</a>
+            <a href="index.php?p=agendamentos-admin" class="btn-tabela-editar">Agendamentos</a>
+            <a href="index.php?p=barbeiros" class="btn-tabela-editar">Barbeiros</a>
             <a href="index.php?p=sair" class="btn-tabela-excluir">Sair</a>
         </div>
     </div>
 
-    <!-- Brand badge -->
     <div class="brand-badge">
         <div class="brand-icon">✂</div>
         <span class="brand-name">EasyCut</span>
     </div>
 
-    <!-- Boas-vindas -->
     <div class="dashboard-welcome">
-        <h2>Bem-vindo de <span>volta!</span></h2>
+        <h2>Todos os <span>Agendamentos</span></h2>
         <div class="dashboard-divider"></div>
-        <p>Gerencie seus horários e agende novos serviços.</p>
+        <p>Visualize os horários de todos os clientes.</p>
     </div>
 
-    <!-- Seção tabela -->
     <div class="section-header">
-        <p class="section-title">Meus Agendamentos</p>
-        <a href="index.php?p=novo-agendamento" class="btn-novo-agendamento-painel">Novo Agendamento</a>
+        <p class="section-title">Agendamentos do Sistema</p>
     </div>
 
     <div class="tabela-card">
         <table class="tabela-barber">
             <thead>
                 <tr>
+                    <th>Cliente</th>
                     <th>Serviço</th>
+                    <th>Barbeiro</th>
                     <th>Data</th>
                     <th>Hora</th>
                     <th>Status</th>
@@ -56,9 +51,9 @@
             <tbody>
                 <?php if (empty($agendamentos)): ?>
                     <tr class="tabela-empty">
-                        <td colspan="5">
+                        <td colspan="7">
                             <span class="tabela-empty-icon">✂</span>
-                            Você ainda não possui horários agendados.
+                            Nenhum agendamento cadastrado ainda.
                         </td>
                     </tr>
                 <?php else: ?>
@@ -73,7 +68,9 @@
                             };
                         ?>
                         <tr>
+                            <td><?= htmlspecialchars($ag['cliente_nome']) ?></td>
                             <td><?= htmlspecialchars($ag['servico_nome']) ?></td>
+                            <td><?= htmlspecialchars($ag['barbeiro_nome']) ?></td>
                             <td><?= date('d/m/Y', strtotime($ag['data_agendamento'])) ?></td>
                             <td><?= substr($ag['horario'], 0, 5) ?></td>
                             <td>
@@ -83,9 +80,7 @@
                             </td>
                             <td>
                                 <div class="acoes-cell">
-                                    <a href="?p=editar-agendamento&id=<?= $ag['id'] ?>" class="btn-tabela-editar">Editar</a>
-
-                                    <form action="?p=excluir-agendamento" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja desmarcar?');">
+                                    <form action="index.php?p=excluir-agendamento" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este agendamento?');">
                                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
                                         <input type="hidden" name="id" value="<?= $ag['id'] ?>">
                                         <button type="submit" class="btn-tabela-excluir">Excluir</button>

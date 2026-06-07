@@ -40,6 +40,31 @@ class Agendamento {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Lista todos os agendamentos de todos os clientes (admin)
+    public static function listarTodosAdmin() {
+        $conn = Banco::getConn();
+
+        $sql = "SELECT 
+                    a.id, 
+                    a.data_agendamento, 
+                    a.horario, 
+                    a.status, 
+                    s.nome as servico_nome, 
+                    b.nome as barbeiro_nome,
+                    u.nome as cliente_nome
+                FROM agendamentos a 
+                JOIN servicos s ON a.servico_id = s.id 
+                JOIN barbeiros b ON a.barbeiro_id = b.id
+                JOIN usuarios u ON a.usuario_id = u.id
+                ORDER BY a.data_agendamento ASC, a.horario ASC";
+
+        $result = $conn->query($sql);
+        if (!$result) {
+            die("ERRO AO LISTAR AGENDAMENTOS: " . $conn->error);
+        }
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public static function buscarPorId($id) {
         $conn = Banco::getConn();
         $result = $conn->query("SELECT * FROM agendamentos WHERE id = $id LIMIT 1");

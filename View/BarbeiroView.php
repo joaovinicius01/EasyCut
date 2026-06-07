@@ -11,6 +11,15 @@
 
 <main class="dashboard-wrapper">
 
+    <div class="section-header" style="margin-bottom: 32px;">
+        <p class="section-title">Menu</p>
+        <div class="acoes-cell">
+            <a href="index.php?p=agendamentos-admin" class="btn-tabela-editar">Agendamentos</a>
+            <a href="index.php?p=barbeiros" class="btn-tabela-editar">Barbeiros</a>
+            <a href="index.php?p=sair" class="btn-tabela-excluir">Sair</a>
+        </div>
+    </div>
+
     <div class="brand-badge">
         <div class="brand-icon">✂</div>
         <span class="brand-name">EasyCut</span>
@@ -24,7 +33,7 @@
 
     <div class="section-header">
         <p class="section-title">Barbeiros Cadastrados</p>
-        <a href="?p=cadastrar-barbeiro" class="btn-novo-agendamento-painel">Novo Barbeiro</a>
+        <a href="index.php?p=cadastrar-barbeiro" class="btn-novo-agendamento-painel">Novo Barbeiro</a>
     </div>
 
     <div class="tabela-card">
@@ -68,7 +77,7 @@
     </div>
 
     <div class="mt-4">
-        <a href="?p=dashboard" class="link-voltar">Voltar para o Painel</a>
+        <a href="index.php?p=dashboard" class="link-voltar">Voltar para o Painel</a>
     </div>
 
 </main>

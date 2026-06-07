@@ -12,11 +12,25 @@ class AgendamentosController {
         }
     }
 
+    private static function verificarAdmin(): void {
+        self::verificarAutenticacao();
+        if ($_SESSION['usuario']['tipo'] != 'admin') {
+            header('Location: ?p=dashboard');
+            exit;
+        }
+    }
+
     public static function index(): void {
         self::verificarAutenticacao();
         $id = $_SESSION['usuario']['id'];
         $agendamentos = Agendamento::listarTodos($id);
         require __DIR__ . "/../View/meus-agendamentos.php";
+    }
+
+    public static function listarAdmin(): void {
+        self::verificarAdmin();
+        $agendamentos = Agendamento::listarTodosAdmin();
+        require __DIR__ . "/../View/agendamentos-admin.php";
     }
 
     public static function formularioCriar(): void {
@@ -121,7 +135,11 @@ class AgendamentosController {
                 Agendamento::apagar($id);
             }
 
-            header('Location: ?p=dashboard');
+            if ($_SESSION['usuario']['tipo'] == 'admin') {
+                header('Location: ?p=agendamentos-admin');
+            } else {
+                header('Location: ?p=dashboard');
+            }
             exit;
         }
     }

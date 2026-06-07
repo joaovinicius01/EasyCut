@@ -8,11 +8,30 @@ if (!isset($_SESSION['csrf_token'])) {
 
 require_once __DIR__ . "/Config/banco1.php";
 $url = $_GET['p'] ?? null;
+require_once __DIR__ . "/Controller/AuthController.php";
 require_once __DIR__ . "/Controller/AgendamentosController.php";
 require_once __DIR__ . "/Controller/BarbeirosController.php";
 
-if ($url == 'dashboard') {
+if ($url == 'login') {
+    AuthController::exibirLogin();
+}
+else if ($url == 'cadastro') {
+    AuthController::exibirCadastro();
+}
+else if ($url == 'entrar') {
+    AuthController::login();
+}
+else if ($url == 'registrar') {
+    AuthController::cadastrar();
+}
+else if ($url == 'sair') {
+    AuthController::logout();
+}
+else if ($url == 'dashboard') {
     AgendamentosController::index();
+}
+else if ($url == 'agendamentos-admin') {
+    AgendamentosController::listarAdmin();
 } 
 else if ($url == 'novo-agendamento') {
     AgendamentosController::formularioCriar();
@@ -48,6 +67,15 @@ else if ($url == 'excluir-barbeiro') {
     BarbeirosController::apagarBarbeiro();
 }
 else {
-    AgendamentosController::index();
+    if (isset($_SESSION['usuario'])) {
+        if ($_SESSION['usuario']['tipo'] == 'admin') {
+            header('Location: ?p=barbeiros');
+        } else {
+            header('Location: ?p=dashboard');
+        }
+    } else {
+        header('Location: ?p=login');
+    }
+    exit;
 }
 ?>
