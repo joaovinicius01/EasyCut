@@ -33,7 +33,7 @@
     <div class="card-main">
         <div class="card-inner">
 
-            <!-- ── Coluna do formulário ── -->
+            
             <div class="card-form">
 
                 <?php if (isset($erro)): ?>
@@ -43,7 +43,7 @@
                 <form action="?p=salvar-agendamento" method="POST">
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
-                    <!-- Step 1 — Serviço -->
+                    
                     <div class="step-label">
                         <div class="step-num">1</div>
                         <span class="step-title">Escolha o serviço</span>
@@ -75,7 +75,7 @@
 
                     <hr class="section-sep">
 
-                    <!-- Step 2 — Data e Hora -->
+                  
                     <div class="step-label">
                         <div class="step-num">2</div>
                         <span class="step-title">Escolha data e horário</span>
@@ -105,7 +105,7 @@
 
                     <hr class="section-sep">
 
-                    <!-- Step 3 — Barbeiro -->
+                    
                     <div class="step-label">
                         <div class="step-num">3</div>
                         <span class="step-title">Escolha o profissional</span>
@@ -114,24 +114,21 @@
                     <div class="field-group">
                         <label class="field-label">Barbeiro</label>
                         <div class="barbers-row">
-                            <label class="barber-label">
-                                <input type="radio"
-                                       name="barbeiro"
-                                       value="Carlos"
-                                       required
-                                       <?= ((isset($_POST['barbeiro']) && $_POST['barbeiro'] === 'Carlos') ? 'checked' : '') ?>>
-                                <div class="barber-avatar">C</div>
-                                <span class="barber-name">Carlos</span>
-                            </label>
-
-                            <label class="barber-label">
-                                <input type="radio"
-                                       name="barbeiro"
-                                       value="Rodolfo"
-                                       <?= ((isset($_POST['barbeiro']) && $_POST['barbeiro'] === 'Rodolfo') ? 'checked' : '') ?>>
-                                <div class="barber-avatar">R</div>
-                                <span class="barber-name">Rodolfo</span>
-                            </label>
+                            <?php if (!empty($barbeiros)): ?>
+                                <?php foreach ($barbeiros as $index => $b): ?>
+                                    <label class="barber-label">
+                                        <input type="radio"
+                                               name="barbeiro"
+                                               value="<?= htmlspecialchars($b['nome']) ?>"
+                                               <?= ($index === 0 ? 'required' : '') ?>
+                                               <?= ((isset($_POST['barbeiro']) && $_POST['barbeiro'] === $b['nome']) ? 'checked' : '') ?>>
+                                        <div class="barber-avatar"><?= htmlspecialchars(mb_substr($b['nome'], 0, 1)) ?></div>
+                                        <span class="barber-name"><?= htmlspecialchars($b['nome']) ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p class="text-muted">Nenhum barbeiro cadastrado.</p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
