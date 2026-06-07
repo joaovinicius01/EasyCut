@@ -38,6 +38,15 @@ else if ($url == 'cadastrar-barbeiro') {
 else if ($url == 'salvar-barbeiro') {
     BarbeirosController::cadastrarBarbeiro();
 }
+else if ($url == 'editar-barbeiro') {
+    BarbeirosController::editarBarbeiro();
+}
+else if ($url == 'atualizar-barbeiro') {
+    BarbeirosController::atualizarBarbeiro();
+}
+else if ($url == 'excluir-barbeiro') {
+    BarbeirosController::apagarBarbeiro();
+}
 else {
     AgendamentosController::index();
 }
