@@ -35,7 +35,6 @@
             <thead>
                 <tr>
                     <th>Serviço</th>
-                    <th>Barbeiro</th>
                     <th>Data</th>
                     <th>Hora</th>
                     <th>Status</th>
@@ -45,7 +44,7 @@
             <tbody>
                 <?php if (empty($agendamentos)): ?>
                     <tr class="tabela-empty">
-                        <td colspan="6">
+                        <td colspan="5">
                             <span class="tabela-empty-icon">✂</span>
                             Você ainda não possui horários agendados.
                         </td>
@@ -63,7 +62,6 @@
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($ag['servico_nome']) ?></td>
-                            <td><?= htmlspecialchars($ag['barbeiro_nome']) ?></td>
                             <td><?= date('d/m/Y', strtotime($ag['data_agendamento'])) ?></td>
                             <td><?= substr($ag['horario'], 0, 5) ?></td>
                             <td>

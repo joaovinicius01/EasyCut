@@ -7,10 +7,8 @@ class AgendamentosController {
 
     private static function verificarAutenticacao(): void {
         if (!isset($_SESSION['usuario'])) {
-            $_SESSION['usuario'] = [
-                'id' => 1,
-                'nome' => 'João Vinicius'
-            ];
+            header('Location: ?p=login');
+            exit;
         }
     }
 
@@ -24,7 +22,11 @@ class AgendamentosController {
     public static function formularioCriar(): void {
         self::verificarAutenticacao();
 
-        $servicos = Agendamento::listarServicos();
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        $servicos  = Agendamento::listarServicos();
         $barbeiros = Barbeiro::listarBarbeiros();
 
         require __DIR__ . "/../View/agendar.php";
@@ -34,24 +36,27 @@ class AgendamentosController {
         self::verificarAutenticacao();
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
             if (($_POST['csrf_token'] ?? '') !== ($_SESSION['csrf_token'] ?? '')) {
-                die("ERRO DE SEGURANÇA: Token CSRF inválido.");
+                die("Erro de segurança: token inválido.");
             }
 
             $id_usuario       = $_SESSION['usuario']['id'];
-            $servico_id       = $_POST['servico_id'];
-            $data_agendamento = $_POST['data_agendamento'];
-            $horario          = $_POST['horario'];
-            $barbeiro_id      = $_POST['barbeiro_id'];
+            $servico_id       = $_POST['servico_id']       ?? '';
+            $data_agendamento = $_POST['data_agendamento'] ?? '';
+            $horario          = $_POST['horario']          ?? '';
+            $barbeiro_id      = $_POST['barbeiro_id']      ?? '';
 
-            if ($servico_id && $data_agendamento && $horario && $barbeiro_id) {
-                Agendamento::inserir($id_usuario, $servico_id, $data_agendamento, $horario, $barbeiro_id);
-                header('Location: ?p=dashboard');
-                exit;
-            } else {
-                header('Location: ?p=novo-agendamento&erro=1');
-                exit;
-            }
+            Agendamento::inserir(
+                $id_usuario,
+                $servico_id,
+                $data_agendamento,
+                $horario,
+                $barbeiro_id
+            );
+
+            header('Location: ?p=dashboard');
+            exit;
         }
     }
 
@@ -59,51 +64,63 @@ class AgendamentosController {
         self::verificarAutenticacao();
         $id = $_GET['id'] ?? null;
 
-        if ($id) {
-            $agendamento = Agendamento::buscarPorId($id);
-            if (!$agendamento || $agendamento['usuario_id'] != $_SESSION['usuario']['id']) {
-                header('Location: ?p=dashboard');
-                exit;
-            }
-
-            $servicos  = Agendamento::listarServicos();
-            $barbeiros = Barbeiro::listarBarbeiros();
-            require __DIR__ . "/../View/editar-agendamento.php";
+        if (!$id) {
+            header('Location: ?p=dashboard');
+            exit;
         }
+
+        $agendamento = Agendamento::buscarPorId($id);
+
+        if (!$agendamento || $agendamento['usuario_id'] != $_SESSION['usuario']['id']) {
+            header('Location: ?p=dashboard');
+            exit;
+        }
+
+        $servicos  = Agendamento::listarServicos();
+        $barbeiros = Barbeiro::listarBarbeiros();
+
+        require __DIR__ . "/../View/editar-agendamento.php";
     }
 
     public static function atualizarAgendamento(): void {
         self::verificarAutenticacao();
+
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
             if (($_POST['csrf_token'] ?? '') !== ($_SESSION['csrf_token'] ?? '')) {
-                die("ERRO DE SEGURANÇA: Token CSRF inválido.");
+                die("Erro de segurança: token inválido.");
             }
 
-            $id               = $_POST['id'];
-            $servico_id       = $_POST['servico_id'];
-            $data_agendamento = $_POST['data_agendamento'];
-            $horario          = $_POST['horario'];
-            $barbeiro_id      = $_POST['barbeiro_id'];
+            $id               = $_POST['id']               ?? null;
+            $servico_id       = $_POST['servico_id']       ?? null;
+            $data_agendamento = $_POST['data_agendamento'] ?? null;
+            $horario          = $_POST['horario']          ?? null;
+            $barbeiro_id      = $_POST['barbeiro_id']      ?? null;
 
             if ($id && $servico_id && $data_agendamento && $horario && $barbeiro_id) {
                 Agendamento::atualizar($id, $servico_id, $data_agendamento, $horario, $barbeiro_id);
-                header('Location: ?p=dashboard');
-                exit;
             }
+
+            header('Location: ?p=dashboard');
+            exit;
         }
     }
 
     public static function apagarAgendamento(): void {
         self::verificarAutenticacao();
+
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
+
             if (($_POST['csrf_token'] ?? '') !== ($_SESSION['csrf_token'] ?? '')) {
-                die("ERRO DE SEGURANÇA: Token CSRF inválido.");
+                die("Erro de segurança: token inválido.");
             }
 
             $id = $_POST['id'] ?? null;
+
             if ($id) {
                 Agendamento::apagar($id);
             }
+
             header('Location: ?p=dashboard');
             exit;
         }
