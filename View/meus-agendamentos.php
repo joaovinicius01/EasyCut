@@ -23,20 +23,17 @@
         </div>
     </div>
 
-    <!-- Brand badge -->
     <div class="brand-badge">
         <div class="brand-icon">✂</div>
         <span class="brand-name">EasyCut</span>
     </div>
 
-    <!-- Boas-vindas -->
     <div class="dashboard-welcome">
         <h2>Bem-vindo de <span>volta!</span></h2>
         <div class="dashboard-divider"></div>
         <p>Gerencie seus horários e agende novos serviços.</p>
     </div>
 
-    <!-- Seção tabela -->
     <div class="section-header">
         <p class="section-title">Meus Agendamentos</p>
         <a href="index.php?p=novo-agendamento" class="btn-novo-agendamento-painel">Novo Agendamento</a>

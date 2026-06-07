@@ -1,5 +1,4 @@
 <?php
-// Model/Servicos.php
 require_once __DIR__ . "/../Config/banco1.php";
 
 class Servicos {

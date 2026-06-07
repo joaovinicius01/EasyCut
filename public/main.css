@@ -1,8 +1,3 @@
-/* ================================================
-   EasyCut — main.css
-   Tema barbearia premium (escuro + dourado)
-   ================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
 :root {
@@ -30,9 +25,6 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
 }
 
-/* ================================================
-   NAVBAR
-   ================================================ */
 .navbar-top {
     display: flex;
     align-items: center;
@@ -83,16 +75,12 @@ body {
     color: #0c0e14 !important;
 }
 
-/* ================================================
-   AGENDAMENTO — WRAPPER
-   ================================================ */
 .scheduling-wrapper {
     max-width: 860px;
     margin: 0 auto;
     padding: 48px 24px 80px;
 }
 
-/* ─── BACK LINK ─── */
 .link-voltar {
     display: inline-flex;
     align-items: center;
@@ -108,7 +96,6 @@ body {
 .link-voltar:hover { color: var(--gold); }
 .link-voltar::before { content: '←'; font-size: 1rem; }
 
-/* ─── BRAND BADGE ─── */
 .brand-badge {
     display: inline-flex;
     align-items: center;
@@ -134,7 +121,6 @@ body {
     text-transform: uppercase;
 }
 
-/* ─── HEADING ─── */
 .page-heading {
     margin-bottom: 48px;
 }
@@ -162,7 +148,6 @@ body {
     margin: 16px 0;
 }
 
-/* ─── MAIN CARD ─── */
 .card-main {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -178,7 +163,6 @@ body {
     background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
-/* ─── CARD GRID ─── */
 .card-inner {
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -188,7 +172,6 @@ body {
     .card-aside           { display: none; }
 }
 
-/* ─── FORM SECTION ─── */
 .card-form {
     padding: 44px 40px;
     border-right: 1px solid var(--border);
@@ -197,7 +180,6 @@ body {
     .card-form { padding: 32px 24px; border-right: none; }
 }
 
-/* Step labels */
 .step-label {
     display: flex;
     align-items: center;
@@ -225,7 +207,6 @@ body {
     color: var(--text-muted);
 }
 
-/* ─── FIELD GROUPS ─── */
 .field-group { margin-bottom: 28px; }
 
 .field-label {
@@ -268,7 +249,6 @@ body {
 }
 .field-input::placeholder { color: var(--text-muted); }
 
-/* Select arrow customizada */
 .field-select-wrap { position: relative; }
 .field-select-wrap::after {
     content: '';
@@ -284,7 +264,6 @@ body {
 }
 .field-select { padding-right: 40px; }
 
-/* Data + Hora lado a lado */
 .datetime-row {
     display: grid;
     grid-template-columns: 1fr 140px;
@@ -294,14 +273,12 @@ body {
     .datetime-row { grid-template-columns: 1fr; }
 }
 
-/* Separador */
 .section-sep {
     border: none;
     border-top: 1px solid var(--border);
     margin: 32px 0;
 }
 
-/* ─── BARBEIRO CARDS ─── */
 .barbers-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -353,7 +330,6 @@ body {
 }
 .barber-label:has(input:checked) .barber-name { color: var(--gold-light); }
 
-/* ─── BOTÃO FINALIZAR ─── */
 .btn-finalizar {
     display: block;
     width: 100%;
@@ -380,7 +356,6 @@ body {
 }
 .btn-finalizar:active { transform: translateY(0); }
 
-/* ─── ASIDE DECORATIVO ─── */
 .card-aside {
     display: flex;
     flex-direction: column;
@@ -453,7 +428,6 @@ body {
     flex-shrink: 0;
 }
 
-/* ─── ALERTAS ─── */
 .alert-box {
     background: rgba(185,40,40,0.1);
     border: 1px solid rgba(185,40,40,0.3);
@@ -464,9 +438,6 @@ body {
     margin-bottom: 28px;
 }
 
-/* ================================================
-   DASHBOARD — MEUS AGENDAMENTOS
-   ================================================ */
 .dashboard-wrapper {
     max-width: 900px;
     margin: 0 auto;
@@ -538,7 +509,6 @@ body {
     color: #0c0e14;
 }
 
-/* Tabela */
 .tabela-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -592,7 +562,6 @@ body {
     font-weight: 500;
 }
 
-/* Badge status */
 .badge-status {
     display: inline-block;
     padding: 4px 12px;
@@ -618,7 +587,6 @@ body {
     border: 1px solid rgba(185,40,40,0.25);
 }
 
-/* Ações */
 .acoes-cell {
     display: flex;
     align-items: center;
@@ -662,7 +630,6 @@ body {
     color: #fca5a5;
 }
 
-/* Empty state */
 .tabela-empty td {
     padding: 56px 20px !important;
     text-align: center !important;
@@ -683,9 +650,6 @@ body {
     .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
-/* ================================================
-   BOOTSTRAP OVERRIDES GLOBAIS
-   ================================================ */
 .form-control,
 .form-select {
     background-color: var(--bg-field) !important;
@@ -710,9 +674,6 @@ body {
     border-radius: 10px !important;
 }
 
-/* ================================================
-   RESPONSIVO MOBILE
-   ================================================ */
 @media (max-width: 600px) {
     .navbar-links  { display: none; }
     .scheduling-wrapper { padding: 24px 16px 60px; }

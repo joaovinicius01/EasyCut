@@ -46,7 +46,6 @@
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
                         <input type="hidden" name="id" value="<?= $agendamento['id'] ?>">
 
-                        <!-- PASSO 1: SERVIÇO -->
                         <div class="step-label">
                             <div class="step-num">1</div>
                             <span class="step-title">Serviço</span>
@@ -67,7 +66,6 @@
 
                         <hr class="section-sep">
 
-                        <!-- PASSO 2: DATA E HORÁRIO -->
                         <div class="step-label">
                             <div class="step-num">2</div>
                             <span class="step-title">Nova data e horário</span>

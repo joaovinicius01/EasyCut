@@ -1,7 +1,6 @@
 <?php
-// Controller/AuthController.php
 
-require_once __DIR__ . "/../Model/Usuario.php"; // Aqui o ../ está correto!
+require_once __DIR__ . "/../Model/Usuario.php";
 
 class AuthController {
 

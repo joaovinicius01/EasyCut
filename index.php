@@ -1,6 +1,5 @@
-<?php 
-// index.php
-session_start(); 
+<?php
+session_start();
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = "token_seguro_easycut_123"; 
@@ -67,7 +66,6 @@ else if ($url == 'atualizar-barbeiro') {
 else if ($url == 'excluir-barbeiro') {
     BarbeirosController::apagarBarbeiro();
 }
-// === ROTAS DE SERVIÇOS ===
 else if ($url == 'servicos') {
     ServicoController::listarServicos();
 }

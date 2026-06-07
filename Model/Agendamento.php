@@ -1,5 +1,4 @@
 <?php
-// Model/Agendamento.php
 
 require_once __DIR__ . "/../Config/banco1.php";
 
