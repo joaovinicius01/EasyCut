@@ -61,6 +61,14 @@ class AgendamentosController {
             $horario          = $_POST['horario']          ?? '';
             $barbeiro_id      = $_POST['barbeiro_id']      ?? '';
 
+            if (Agendamento::horarioOcupado($barbeiro_id, $data_agendamento, $horario)) {
+                $erro      = "Este profissional já está ocupado nesse horário. Escolha outro horário ou barbeiro.";
+                $servicos  = Agendamento::listarServicos();
+                $barbeiros = Barbeiro::listarBarbeiros();
+                require __DIR__ . "/../View/agendar.php";
+                return;
+            }
+
             Agendamento::inserir(
                 $id_usuario,
                 $servico_id,
@@ -112,6 +120,16 @@ class AgendamentosController {
             $barbeiro_id      = $_POST['barbeiro_id']      ?? null;
 
             if ($id && $servico_id && $data_agendamento && $horario && $barbeiro_id) {
+
+                if (Agendamento::horarioOcupado($barbeiro_id, $data_agendamento, $horario, $id)) {
+                    $erro        = "Este profissional já está ocupado nesse horário. Escolha outro horário ou barbeiro.";
+                    $agendamento = Agendamento::buscarPorId($id);
+                    $servicos    = Agendamento::listarServicos();
+                    $barbeiros   = Barbeiro::listarBarbeiros();
+                    require __DIR__ . "/../View/editar-agendamento.php";
+                    return;
+                }
+
                 Agendamento::atualizar($id, $servico_id, $data_agendamento, $horario, $barbeiro_id);
             }
 

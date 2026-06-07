@@ -40,7 +40,6 @@ class Agendamento {
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Lista todos os agendamentos de todos os clientes (admin)
     public static function listarTodosAdmin() {
         $conn = Banco::getConn();
 
@@ -71,6 +70,25 @@ class Agendamento {
         return $result->fetch_assoc();
     }
 
+    public static function horarioOcupado($barbeiro_id, $data, $horario, $ignorar_id = null) {
+        $conn = Banco::getConn();
+
+        $sql = "SELECT COUNT(*) as total 
+                FROM agendamentos 
+                WHERE barbeiro_id = $barbeiro_id 
+                AND data_agendamento = '$data' 
+                AND horario = '$horario'
+                AND status != 'cancelado'";
+
+        if ($ignorar_id !== null) {
+            $sql .= " AND id != $ignorar_id";
+        }
+
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['total'] > 0;
+    }
+
     public static function inserir($id_usuario, $id_servico, $data, $hora, $barbeiro_id) {
         $conn = Banco::getConn();
         $sql = "INSERT INTO agendamentos (usuario_id, servico_id, data_agendamento, horario, barbeiro_id, status) 
@@ -79,7 +97,6 @@ class Agendamento {
         return $conn->query($sql);
     }
 
-    
     public static function atualizar($id, $id_servico, $data, $hora, $barbeiro_id) {
         $conn = Banco::getConn();
         $sql = "UPDATE agendamentos 
