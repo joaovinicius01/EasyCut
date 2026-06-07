@@ -16,6 +16,12 @@
         <div class="acoes-cell">
             <a href="index.php?p=agendamentos-admin" class="btn-tabela-editar">Agendamentos</a>
             <a href="index.php?p=barbeiros" class="btn-tabela-editar">Barbeiros</a>
+            
+            <!-- BOTÃO DE SERVIÇOS EXCLUSIVO SE FOR O EMAIL DO ADMIN -->
+            <?php if (isset($_SESSION['usuario']['email']) && $_SESSION['usuario']['email'] === 'admin@easycut.com'): ?>
+                <a href="index.php?p=servicos" class="btn-tabela-editar">Serviços</a>
+            <?php endif; ?>
+            
             <a href="index.php?p=sair" class="btn-tabela-excluir">Sair</a>
         </div>
     </div>

@@ -1,6 +1,7 @@
 <?php
+// Controller/AuthController.php
 
-require_once __DIR__ . "/../Model/Usuario.php";
+require_once __DIR__ . "/../Model/Usuario.php"; // Aqui o ../ está correto!
 
 class AuthController {
 
@@ -45,7 +46,8 @@ class AuthController {
                 $_SESSION['usuario'] = [
                     'id' => $usuario['id'],
                     'nome' => $usuario['nome'],
-                    'tipo' => $usuario['tipo']
+                    'tipo' => $usuario['tipo'],
+                    'email' => $email 
                 ];
 
                 if ($usuario['tipo'] == 'admin') {

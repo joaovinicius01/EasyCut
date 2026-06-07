@@ -11,6 +11,7 @@ $url = $_GET['p'] ?? null;
 require_once __DIR__ . "/Controller/AuthController.php";
 require_once __DIR__ . "/Controller/AgendamentosController.php";
 require_once __DIR__ . "/Controller/BarbeirosController.php";
+require_once __DIR__ . "/Controller/ServicoController.php"; 
 
 if ($url == 'login') {
     AuthController::exibirLogin();
@@ -65,6 +66,19 @@ else if ($url == 'atualizar-barbeiro') {
 }
 else if ($url == 'excluir-barbeiro') {
     BarbeirosController::apagarBarbeiro();
+}
+// === ROTAS DE SERVIÇOS ===
+else if ($url == 'servicos') {
+    ServicoController::listarServicos();
+}
+else if ($url == 'cadastrar-servico') {
+    ServicoController::formularioCadastrar();
+}
+else if ($url == 'salvar-servico') {
+    ServicoController::cadastrarServico();
+}
+else if ($url == 'excluir-servico') {
+    ServicoController::apagarServico();
 }
 else {
     if (isset($_SESSION['usuario'])) {
