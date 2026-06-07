@@ -9,6 +9,7 @@ if (!isset($_SESSION['csrf_token'])) {
 require_once __DIR__ . "/Config/banco1.php";
 $url = $_GET['p'] ?? null;
 require_once __DIR__ . "/Controller/AgendamentosController.php";
+require_once __DIR__ . "/Controller/BarbeirosController.php";
 
 if ($url == 'dashboard') {
     AgendamentosController::index();
@@ -27,6 +28,24 @@ else if ($url == 'atualizar-agendamento') {
 }
 else if ($url == 'excluir-agendamento') {
     AgendamentosController::apagarAgendamento();
+}
+else if ($url == 'barbeiros') {
+    BarbeirosController::listarBarbeiros();
+}
+else if ($url == 'cadastrar-barbeiro') {
+    BarbeirosController::formularioCadastrar();
+}
+else if ($url == 'salvar-barbeiro') {
+    BarbeirosController::cadastrarBarbeiro();
+}
+else if ($url == 'editar-barbeiro') {
+    BarbeirosController::editarBarbeiro();
+}
+else if ($url == 'atualizar-barbeiro') {
+    BarbeirosController::atualizarBarbeiro();
+}
+else if ($url == 'excluir-barbeiro') {
+    BarbeirosController::apagarBarbeiro();
 }
 else {
     AgendamentosController::index();

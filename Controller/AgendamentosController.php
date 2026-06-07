@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../Model/Agendamento.php";
+require_once __DIR__ . "/../Model/Barbeiro.php";
 
 class AgendamentosController {
 
@@ -24,6 +25,7 @@ class AgendamentosController {
         self::verificarAutenticacao();
 
         $servicos = Agendamento::listarServicos();
+        $barbeiros = Barbeiro::listarBarbeiros();
 
         require __DIR__ . "/../View/agendar.php";
     }
@@ -40,10 +42,10 @@ class AgendamentosController {
             $servico_id       = $_POST['servico_id'];
             $data_agendamento = $_POST['data_agendamento'];
             $horario          = $_POST['horario'];
-            $barbeiro         = $_POST['barbeiro']; 
+            $barbeiro_id      = $_POST['barbeiro_id'];
 
-            if ($servico_id && $data_agendamento && $horario && $barbeiro) {
-                Agendamento::inserir($id_usuario, $servico_id, $data_agendamento, $horario, $barbeiro);
+            if ($servico_id && $data_agendamento && $horario && $barbeiro_id) {
+                Agendamento::inserir($id_usuario, $servico_id, $data_agendamento, $horario, $barbeiro_id);
                 header('Location: ?p=dashboard');
                 exit;
             } else {
@@ -64,7 +66,8 @@ class AgendamentosController {
                 exit;
             }
 
-            $servicos = Agendamento::listarServicos();
+            $servicos  = Agendamento::listarServicos();
+            $barbeiros = Barbeiro::listarBarbeiros();
             require __DIR__ . "/../View/editar-agendamento.php";
         }
     }
@@ -80,10 +83,10 @@ class AgendamentosController {
             $servico_id       = $_POST['servico_id'];
             $data_agendamento = $_POST['data_agendamento'];
             $horario          = $_POST['horario'];
-            $barbeiro         = $_POST['barbeiro'];
+            $barbeiro_id      = $_POST['barbeiro_id'];
 
-            if ($id && $servico_id && $data_agendamento && $horario && $barbeiro) {
-                Agendamento::atualizar($id, $servico_id, $data_agendamento, $horario, $barbeiro);
+            if ($id && $servico_id && $data_agendamento && $horario && $barbeiro_id) {
+                Agendamento::atualizar($id, $servico_id, $data_agendamento, $horario, $barbeiro_id);
                 header('Location: ?p=dashboard');
                 exit;
             }
